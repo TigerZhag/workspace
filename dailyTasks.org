@@ -1,9 +1,37 @@
 * tasks :work:
 ** <2017-03-22 三>
 
-*** TODO golang: goroutines and channels
-*** TODO golang: download process
-*** TODO learn to use git subtree
+*** WAITING golang: goroutines and channels
+    :LOGBOOK:  
+    - State "WAITING"    from "TODO"       [2017-03-28 二 19:33] \\
+      waiting for learning by doing
+    :END:      
+*** WAITING golang: download process
+*** DONE learn to use git submodule
+    CLOSED: [2017-03-28 二 19:33]
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2017-03-28 二 19:33]
+    - Note taken on [2017-03-28 二 19:19] \\
+      * git submodule
+      ** git submodule add URL path
+         添加
+      ** git submodule init
+         注册
+      ** git submodule update <path/to/submodule>
+         检出
+
+      * git server
+      ** server: 添加git用户
+      ** user:   ssh-copy-id
+      ** server: mkdir \/srv/git/xxx.git
+      ** server: git init --bare
+      ** user :  git remote add origin ssh://git@hostname:port/srv/git/xxx.git
+
+      # forbiden git user login with shell
+      ** server: echo `which git-shell` >> \/etc/shells
+      ** server: sudo chsh git -s $(which git-shell)
+    :END:
+
 *** DONE apk spyder by goLang
     CLOSED: [2017-03-28 二 11:59]
     :LOGBOOK:  
