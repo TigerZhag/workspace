@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>请求流程</title>
+<!-- 2017-03-28 二 11:36 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="zhang shixin" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">请求流程</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 流程</a>
+<ul>
+<li><a href="#sec-1-1">1.1. 预处理</a>
+<ul>
+<li><a href="#sec-1-1-1">1.1.1. netconfig</a></li>
+<li><a href="#sec-1-1-2">1.1.2. 检查更新</a></li>
+<li><a href="#sec-1-1-3">1.1.3. encode</a></li>
+<li><a href="#sec-1-1-4">1.1.4. code</a></li>
+<li><a href="#sec-1-1-5">1.1.5. check<sub>code</sub></a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2">1.2. 选教材</a>
+<ul>
+<li><a href="#sec-1-2-1">1.2.1. 年级</a></li>
+<li><a href="#sec-1-2-2">1.2.2. 学科</a></li>
+<li><a href="#sec-1-2-3">1.2.3. 教材版本/子版本</a></li>
+<li><a href="#sec-1-2-4">1.2.4. 获取书籍信息</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">1.3. 选章节</a>
+<ul>
+<li><a href="#sec-1-3-1">1.3.1. 章节</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">1.4. 获取资源</a>
+<ul>
+<li><a href="#sec-1-4-1">1.4.1. 课件</a></li>
+<li><a href="#sec-1-4-2">1.4.2. ebook</a></li>
+<li><a href="#sec-1-4-3">1.4.3. 多媒体资源</a></li>
+<li><a href="#sec-1-4-4">1.4.4. 3D资源</a></li>
+<li><a href="#sec-1-4-5">1.4.5. 基础习题</a></li>
+<li><a href="#sec-1-4-6">1.4.6. 趣味题型</a></li>
+<li><a href="#sec-1-4-7">1.4.7. PPT底板</a></li>
+<li><a href="#sec-1-4-8">1.4.8. VR测试资源(未投入使用)</a></li>
+<li><a href="#sec-1-4-9">1.4.9. 未知用途资源</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-2">2. 附录</a>
+<ul>
+<li><a href="#sec-2-1">2.1. 注释:</a></li>
+<li><a href="#sec-2-2">2.2. 表格:</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 流程</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 预处理</h3>
+<div class="outline-text-3" id="text-1-1">
+</div><div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> netconfig</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+$H7/v0.1/netconfigdev?user=&amp;ver=1&amp;channel=
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> 检查更新</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+$H2/v0.1/static/ppt/final<sub>update</sub>/update/version.dat?id=0144BA9D
+返回格式: 文件下载(内容只有一个版本代码)
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-1-3" class="outline-4">
+<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> encode</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<p>
+$8/v0.1/c/math/831989148/info
+返回格式: 点击查看 <a href="http://pptaccount.edu.web.sdp.101.com/v0.1/c/math/831989148/info">endode</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-1-4" class="outline-4">
+<h4 id="sec-1-1-4"><span class="section-number-4">1.1.4</span> code</h4>
+<div class="outline-text-4" id="text-1-1-4">
+<p>
+$8/v0.1/c/math/831989148/code
+返回格式: 点击查看 <a href="http://pptaccount.edu.web.sdp.101.com/v0.1/c/math/831989148/code">check<sub>code</sub></a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-1-5" class="outline-4">
+<h4 id="sec-1-1-5"><span class="section-number-4">1.1.5</span> check<sub>code</sub></h4>
+<div class="outline-text-4" id="text-1-1-5">
+<p>
+$8/v0.1/c/math/831989148/check?check<sub>code</sub>=BI8TuYp9
+返回格式: 点击查看 <a href="http://pptaccount.edu.web.sdp.101.com/v0.1/c/math/831989148/check?check_code=BI8TuYp9">check<sub>code</sub></a>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 选教材</h3>
+<div class="outline-text-3" id="text-1-2">
+</div><div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> 年级</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+$H1/v0.6/categories/relations?patternPath=K12
+返回格式: 点击查看 <a href="http://esp-lifecycle.web.sdp.101.com/v0.6/categories/relations?patternPath=K12">年级列表</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> 学科</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+$H1/v0.6/categories/relations?patternPath=K12/$ON020300(年级代码)/
+返回格式: 点击查看 <a href="http://esp-lifecycle.web.sdp.101.com/v0.6/categories/relations?patternPath=K12/$ON030200">八年级学科列表(json)</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3"><span class="section-number-4">1.2.3</span> 教材版本/子版本</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<p>
+$H1/v0.6/categories/relations?patternPath=K12/$(年级代码)/$(学科代码)
+返回格式: 点击查看 <a href="http://esp-lifecycle.web.sdp.101.com/v0.6/categories/relations?patternPath=K12/$ON030200/$SB0300">八年级英语教材版本与子版本</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4"><span class="section-number-4">1.2.4</span> 获取书籍信息</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<p>
+$H1/v0.6/teachingmaterials/actions/query?&amp;include=TI,EDU,CG&amp;category=K12/$ON030000/$ON030200/$SB0400/$E001000/$E001001&amp;relation&amp;coverage=Org/nd/&amp;prop&amp;words&amp;limit=(0,20)
+返回格式: 点击查看 <a href="http://esp-lifecycle.web.sdp.101.com/v0.6/teachingmaterials/actions/query?&include=TI,EDU,CG&category=K12/$ON030000/$ON030200/$SB0400/$E001000/$E001001&relation&coverage=Org/nd/&prop&words&limit=(0,20)">书籍信息</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> 选章节</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> 章节</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+$H1/v0.6/teachingmaterials/af0b4778-3531-4614-a65c-07c90d7839a5/chapters/none/subitems
+返回格式: 点击查看 <a href="http://esp-lifecycle.web.sdp.101.com/v0.6/teachingmaterials/af0b4778-3531-4614-a65c-07c90d7839a5/chapters/none/subitems">八年级英语人教上册章节列表</a>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> 获取资源</h3>
+<div class="outline-text-3" id="text-1-4">
+</div><div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> 课件</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<p>
+$H1/v0.6/coursewares/actions/query?words&amp;limit=(0,1)&amp;include=TI,LC&amp;category&amp;relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&amp;coverage=Org/nd/&amp;category=$F010003&amp;category=$F060005&amp;category=$F010004
+返回格式: 点击查看 <a href="http://esp-lifecycle.web.sdp.101.com/v0.6/coursewares/actions/query?words&limit=(0,1)&include=TI,LC&category&relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&coverage=Org/nd/&category=$F010003&category=$F060005&category=$F010004">课件资源</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> ebook</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<p>
+$H1/v0.6/ebooks/actions/query?words&amp;limit=(0,1)&amp;include=TI,CG,LC&amp;relation=teachingmaterials/af0b4778-3531-4614-a65c-07c90d7839a5/ASSOCIATE&amp;coverage=Org/nd/
+返回格式: 点击查看 <a href="http://esp-lifecycle.web.sdp.101.com/v0.6/ebooks/actions/query?words&limit=(0,1)&include=TI,CG,LC&relation=teachingmaterials/af0b4778-3531-4614-a65c-07c90d7839a5/ASSOCIATE&coverage=Org/nd/">ebook资源</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> 多媒体资源</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<p>
+$H1/v0.6/assets/actions/query?words&amp;limit=(0,20)&amp;include=TI&amp;category=$RA0104&amp;relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&amp;coverage=Org/nd/
+返回格式: 点击查看 <a href="http://esp-lifecycle.web.sdp.101.com/v0.6/assets/actions/query?words&limit=(0,20)&include=TI&category=$RA0104&relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&coverage=Org/nd/">多媒体资源</a> (其中limit控制返回数量, category控制多媒体类型:见附录, 可添加 category<sub>exclude参数</sub> e.g: category<sub>exclude</sub>=$F020004, 用于)
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-4-4" class="outline-4">
+<h4 id="sec-1-4-4"><span class="section-number-4">1.4.4</span> 3D资源</h4>
+<div class="outline-text-4" id="text-1-4-4">
+<p>
+$H1/v0.6/assets/actions/query?words&amp;limit=(0,1)&amp;include=TI,LC&amp;category=$RT0209%20and%20$F070004&amp;category=$RA0106%20and%20$F070004&amp;category=$RA0106%20and%20$F080001&amp;relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&amp;coverage=Org/nd/&amp;orderby=viplevel%20desc
+返回格式: 点击查看 <a href="http://esp-lifecycle.web.sdp.101.com/v0.6/assets/actions/query?words&limit=(0,1)&include=TI,LC&category=$RT0209%2520and%2520$F070004&category=$RA0106%2520and%2520$F070004&category=$RA0106%2520and%2520$F080001&relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&coverage=Org/nd/&orderby=viplevel%2520desc">3D资源</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-4-5" class="outline-4">
+<h4 id="sec-1-4-5"><span class="section-number-4">1.4.5</span> 基础习题</h4>
+<div class="outline-text-4" id="text-1-4-5">
+<p>
+$H1/v0.6/questions/actions/query?words&amp;limit=(0,1)&amp;include=TI,CG,LC&amp;category=$RE0200&amp;category<sub>exclude</sub>=$RE0211,$RE0206,$RE0217&amp;relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&amp;prop=status%20ne%20CREATING&amp;coverage=Org/nd/
+返回格式: 点击查看 <a href="http://esp-lifecycle.web.sdp.101.com/v0.6/questions/actions/query?words&limit=(0,1)&include=TI,CG,LC&category=$RE0200&category_exclude=$RE0211,$RE0206,$RE0217&relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&prop=status%2520ne%2520CREATING&coverage=Org/nd/">基础习题</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-4-6" class="outline-4">
+<h4 id="sec-1-4-6"><span class="section-number-4">1.4.6</span> 趣味题型</h4>
+<div class="outline-text-4" id="text-1-4-6">
+<p>
+$H1/v0.6/coursewareobjects/actions/query?words&amp;limit=(0,1)&amp;include=TI,CG,LC&amp;relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&amp;category=$RE04*&amp;prop=status%20ne%20CREATING&amp;coverage=Org/nd/
+返回格式: 点击查看 <a href="http://esp-lifecycle.web.sdp.101.com/v0.6/coursewareobjects/actions/query?words&limit=(0,1)&include=TI,CG,LC&relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&category=$RE04*&prop=status%2520ne%2520CREATING&coverage=Org/nd/">趣味题型</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-4-7" class="outline-4">
+<h4 id="sec-1-4-7"><span class="section-number-4">1.4.7</span> PPT底板</h4>
+<div class="outline-text-4" id="text-1-4-7">
+<p>
+$H1/v0.6/assets/actions/query?words&amp;limit=(0,1)&amp;include=TI,LC&amp;category=$RA0501%20and%20$F050003&amp;category&amp;coverage=Org/nd/
+返回格式: 点击查看 <a href="http://esp-lifecycle.web.sdp.101.com/v0.6/assets/actions/query?words&limit=(0,1)&include=TI,LC&category=$RA0501%2520and%2520$F050003&category&coverage=Org/nd/">PPT底板</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-4-8" class="outline-4">
+<h4 id="sec-1-4-8"><span class="section-number-4">1.4.8</span> VR测试资源(未投入使用)</h4>
+<div class="outline-text-4" id="text-1-4-8">
+<p>
+$H1/v0.6/assets/actions/query?words&amp;limit=(0,1)&amp;include=TI,LC&amp;category=$RT0400%20and%20$F070004&amp;category=$RT0402&amp;category=$RT0403&amp;relation&amp;coverage=Org/nd/&amp;orderby=viplevel%20desc
+返回格式: 点击查看 <a href="http://esp-lifecycle.web.sdp.101.com/v0.6/assets/actions/query?words&limit=(0,1)&include=TI,LC&category=$RT0400%2520and%2520$F070004&category=$RT0402&category=$RT0403&relation&coverage=Org/nd/&orderby=viplevel%2520desc">VR测试资源</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-4-9" class="outline-4">
+<h4 id="sec-1-4-9"><span class="section-number-4">1.4.9</span> 未知用途资源</h4>
+<div class="outline-text-4" id="text-1-4-9">
+<p>
+$H1/v0.6/coursewares/actions/query?words&amp;limit=(0,1)&amp;include=TI,LC&amp;coverage=Org/nd/&amp;relation&amp;category=$RT0101
+返回格式: 点击查看: <a href="http://esp-lifecycle.web.sdp.101.com/v0.6/coursewares/actions/query?words&limit=(0,1)&include=TI,LC&coverage=Org/nd/&relation&category=$RT0101">未知用途</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 附录</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> 注释:</h3>
+<div class="outline-text-3" id="text-2-1">
+<ol class="org-ol">
+<li>URL中的limit用来控制返回各种列表最大size
+</li>
+<li>URL中category类型: $RA0101 :图片, $RA0102 音频, $RA0103 视频, $RA0104 动画
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> 表格:</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+表格1.1 Host列表
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="right" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">ID</th>
+<th scope="col" class="left">Host</th>
+<th scope="col" class="right">IP</th>
+<th scope="col" class="left">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">H1</td>
+<td class="left">esp-lifecycle.web.sdp.101.com</td>
+<td class="right">218.75.141.9</td>
+<td class="left">教材选取</td>
+</tr>
+
+<tr>
+<td class="left">H2</td>
+<td class="left">cdncs.101.com</td>
+<td class="right">117.27.241.73/221.228.89.48</td>
+<td class="left">资源下载</td>
+</tr>
+
+<tr>
+<td class="left">H3</td>
+<td class="left">pptmessage.101.com</td>
+<td class="right">118.191.2.45</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">H4</td>
+<td class="left">ppt.101.com</td>
+<td class="right">61.160.40.249</td>
+<td class="left">官网</td>
+</tr>
+
+<tr>
+<td class="left">H5</td>
+<td class="left">p.101.com</td>
+<td class="right">118.191.2.178</td>
+<td class="left">后台</td>
+</tr>
+
+<tr>
+<td class="left">H6</td>
+<td class="left">cs.101.com</td>
+<td class="right">221.228.89.48</td>
+<td class="left">内容服务</td>
+</tr>
+
+<tr>
+<td class="left">H7</td>
+<td class="left">ppt-release.101.com</td>
+<td class="right">61.160.40.250</td>
+<td class="left">netconfig</td>
+</tr>
+
+<tr>
+<td class="left">H8</td>
+<td class="left">pptaccount.edu.web.sdp.101.com</td>
+<td class="right">61.160.40.250</td>
+<td class="left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2017.3.8</p>
+<p class="author">Author: zhang shixin</p>
+<p class="date">Created: 2017-03-28 二 11:36</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 26.0.50.2 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"></p>
+</div>
+</body>
+</html>

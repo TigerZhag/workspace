@@ -1,0 +1,37 @@
+* tasks :work:
+** <2017-03-22 三>
+
+*** TODO golang: goroutines and channels
+*** TODO golang: download process
+*** TODO learn to use git subtree
+*** DONE apk spyder by goLang
+    CLOSED: [2017-03-28 二 11:59]
+    :LOGBOOK:  
+    - State "DONE"       from "TODO"       [2017-03-28 二 11:59]
+    :END:      
+*** DONE fix microclassroom bugs #49003
+    CLOSED: [2017-03-24 五 15:29]
+    :LOGBOOK:
+    - State "DONE"       from "WAITING"    [2017-03-24 五 15:29]
+    - Note taken on [2017-03-23 四 19:10] \\
+      waiting for test
+    - State "WAITING"    from "TODO"       [2017-03-22 三 14:30] \\
+      waiting for find the regular
+    :END:
+
+*** WAITING deploy a smb server which can visited by win8
+    :LOGBOOK:  
+    - Note taken on [2017-03-23 四 19:11] \\
+      try harder to figure out the permision problem
+    - Note taken on [2017-03-22 三 20:22] \\
+      notes: [[file:blog/linux/runing%20a%20smb%20server%20on%20Ubuntu.org][runing a smb server on Ubuntu]]
+    - State "WAITING"    from "TODO"       [2017-03-22 三 19:57] \\
+      waiting for download101 finish to reboot this machine
+    :END:      
+
+*** TODO figure out the makefile of Android source code
+
+*** TODO add fast charging logo to G600 lock screen
+
+
+* tips

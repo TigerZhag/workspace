@@ -1,0 +1,3 @@
+[submodule "DailyTask-java"]
+	path = DailyTask-java
+	url = git@github.com:TigerZhag/DailyTask-java.git

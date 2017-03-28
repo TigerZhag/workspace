@@ -1,0 +1,85 @@
+#+AUTHOR: zhang shixin
+#+email: tiger.zhag@gmail.com
+#+DATE: 2017.3.8
+# URL中Host用表格1.1中ID代替
+* 流程
+** 预处理
+*** netconfig
+    $H7/v0.1/netconfigdev?user=&ver=1&channel=
+*** 检查更新
+    $H2/v0.1/static/ppt/final_update/update/version.dat?id=0144BA9D
+    返回格式: 文件下载(内容只有一个版本代码)
+*** encode
+    $8/v0.1/c/math/831989148/info
+    返回格式: 点击查看 [[http://pptaccount.edu.web.sdp.101.com/v0.1/c/math/831989148/info][endode]]
+*** code
+    $8/v0.1/c/math/831989148/code
+    返回格式: 点击查看 [[http://pptaccount.edu.web.sdp.101.com/v0.1/c/math/831989148/code][check_code]]
+*** check_code
+    $8/v0.1/c/math/831989148/check?check_code=BI8TuYp9
+    返回格式: 点击查看 [[http://pptaccount.edu.web.sdp.101.com/v0.1/c/math/831989148/check?check_code%3DBI8TuYp9][check_code]]
+
+** 选教材
+*** 年级
+    $H1/v0.6/categories/relations?patternPath=K12
+    返回格式: 点击查看 [[http://esp-lifecycle.web.sdp.101.com/v0.6/categories/relations?patternPath%3DK12][年级列表]]
+*** 学科
+    $H1/v0.6/categories/relations?patternPath=K12/$ON020300(年级代码)/
+    返回格式: 点击查看 [[http://esp-lifecycle.web.sdp.101.com/v0.6/categories/relations?patternPath%3DK12/$ON030200][八年级学科列表(json)]]
+*** 教材版本/子版本
+    $H1/v0.6/categories/relations?patternPath=K12/$(年级代码)/$(学科代码)
+    返回格式: 点击查看 [[http://esp-lifecycle.web.sdp.101.com/v0.6/categories/relations?patternPath%3DK12/$ON030200/$SB0300][八年级英语教材版本与子版本]]
+*** 获取书籍信息
+    $H1/v0.6/teachingmaterials/actions/query?&include=TI,EDU,CG&category=K12/$ON030000/$ON030200/$SB0400/$E001000/$E001001&relation&coverage=Org/nd/&prop&words&limit=(0,20)
+    返回格式: 点击查看 [[http://esp-lifecycle.web.sdp.101.com/v0.6/teachingmaterials/actions/query?&include%3DTI,EDU,CG&category%3DK12/$ON030000/$ON030200/$SB0400/$E001000/$E001001&relation&coverage%3DOrg/nd/&prop&words&limit%3D(0,20)][书籍信息]]
+** 选章节
+*** 章节
+    $H1/v0.6/teachingmaterials/af0b4778-3531-4614-a65c-07c90d7839a5/chapters/none/subitems
+    返回格式: 点击查看 [[http://esp-lifecycle.web.sdp.101.com/v0.6/teachingmaterials/af0b4778-3531-4614-a65c-07c90d7839a5/chapters/none/subitems][八年级英语人教上册章节列表]]
+
+** 获取资源
+*** 课件
+    $H1/v0.6/coursewares/actions/query?words&limit=(0,1)&include=TI,LC&category&relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&coverage=Org/nd/&category=$F010003&category=$F060005&category=$F010004
+    返回格式: 点击查看 [[http://esp-lifecycle.web.sdp.101.com/v0.6/coursewares/actions/query?words&limit%3D(0,1)&include%3DTI,LC&category&relation%3Dchapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&coverage%3DOrg/nd/&category%3D$F010003&category%3D$F060005&category%3D$F010004][课件资源]]
+*** ebook
+    $H1/v0.6/ebooks/actions/query?words&limit=(0,1)&include=TI,CG,LC&relation=teachingmaterials/af0b4778-3531-4614-a65c-07c90d7839a5/ASSOCIATE&coverage=Org/nd/
+    返回格式: 点击查看 [[http://esp-lifecycle.web.sdp.101.com/v0.6/ebooks/actions/query?words&limit%3D(0,1)&include%3DTI,CG,LC&relation%3Dteachingmaterials/af0b4778-3531-4614-a65c-07c90d7839a5/ASSOCIATE&coverage%3DOrg/nd/][ebook资源]]
+*** 多媒体资源
+    $H1/v0.6/assets/actions/query?words&limit=(0,20)&include=TI&category=$RA0104&relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&coverage=Org/nd/
+    返回格式: 点击查看 [[http://esp-lifecycle.web.sdp.101.com/v0.6/assets/actions/query?words&limit%3D(0,20)&include%3DTI&category%3D$RA0104&relation%3Dchapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&coverage%3DOrg/nd/][多媒体资源]] (其中limit控制返回数量, category控制多媒体类型:见附录, 可添加 category_exclude参数 e.g: category_exclude=$F020004, 用于)
+*** 3D资源
+    $H1/v0.6/assets/actions/query?words&limit=(0,1)&include=TI,LC&category=$RT0209%20and%20$F070004&category=$RA0106%20and%20$F070004&category=$RA0106%20and%20$F080001&relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&coverage=Org/nd/&orderby=viplevel%20desc
+    返回格式: 点击查看 [[http://esp-lifecycle.web.sdp.101.com/v0.6/assets/actions/query?words&limit%3D(0,1)&include%3DTI,LC&category%3D$RT0209%2520and%2520$F070004&category%3D$RA0106%2520and%2520$F070004&category%3D$RA0106%2520and%2520$F080001&relation%3Dchapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&coverage%3DOrg/nd/&orderby%3Dviplevel%2520desc][3D资源]]
+*** 基础习题
+    $H1/v0.6/questions/actions/query?words&limit=(0,1)&include=TI,CG,LC&category=$RE0200&category_exclude=$RE0211,$RE0206,$RE0217&relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&prop=status%20ne%20CREATING&coverage=Org/nd/
+    返回格式: 点击查看 [[http://esp-lifecycle.web.sdp.101.com/v0.6/questions/actions/query?words&limit%3D(0,1)&include%3DTI,CG,LC&category%3D$RE0200&category_exclude%3D$RE0211,$RE0206,$RE0217&relation%3Dchapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&prop%3Dstatus%2520ne%2520CREATING&coverage%3DOrg/nd/][基础习题]]
+*** 趣味题型
+    $H1/v0.6/coursewareobjects/actions/query?words&limit=(0,1)&include=TI,CG,LC&relation=chapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&category=$RE04*&prop=status%20ne%20CREATING&coverage=Org/nd/
+    返回格式: 点击查看 [[http://esp-lifecycle.web.sdp.101.com/v0.6/coursewareobjects/actions/query?words&limit%3D(0,1)&include%3DTI,CG,LC&relation%3Dchapters/a488f154-d2ea-4ec1-b520-c74dc1a04aab/ASSOCIATE&category%3D$RE04*&prop%3Dstatus%2520ne%2520CREATING&coverage%3DOrg/nd/][趣味题型]]
+*** PPT底板
+    $H1/v0.6/assets/actions/query?words&limit=(0,1)&include=TI,LC&category=$RA0501%20and%20$F050003&category&coverage=Org/nd/
+    返回格式: 点击查看 [[http://esp-lifecycle.web.sdp.101.com/v0.6/assets/actions/query?words&limit%3D(0,1)&include%3DTI,LC&category%3D$RA0501%2520and%2520$F050003&category&coverage%3DOrg/nd/][PPT底板]]
+*** VR测试资源(未投入使用)
+    $H1/v0.6/assets/actions/query?words&limit=(0,1)&include=TI,LC&category=$RT0400%20and%20$F070004&category=$RT0402&category=$RT0403&relation&coverage=Org/nd/&orderby=viplevel%20desc
+    返回格式: 点击查看 [[http://esp-lifecycle.web.sdp.101.com/v0.6/assets/actions/query?words&limit%3D(0,1)&include%3DTI,LC&category%3D$RT0400%2520and%2520$F070004&category%3D$RT0402&category%3D$RT0403&relation&coverage%3DOrg/nd/&orderby%3Dviplevel%2520desc][VR测试资源]]
+*** 未知用途资源
+    $H1/v0.6/coursewares/actions/query?words&limit=(0,1)&include=TI,LC&coverage=Org/nd/&relation&category=$RT0101
+    返回格式: 点击查看: [[http://esp-lifecycle.web.sdp.101.com/v0.6/coursewares/actions/query?words&limit%3D(0,1)&include%3DTI,LC&coverage%3DOrg/nd/&relation&category%3D$RT0101][未知用途]]
+* 附录
+
+** 注释:
+   1. URL中的limit用来控制返回各种列表最大size
+   2. URL中category类型: $RA0101 :图片, $RA0102 音频, $RA0103 视频, $RA0104 动画
+
+** 表格:
+表格1.1 Host列表
+| ID | Host                           |                          IP | 备注      |
+|----+--------------------------------+-----------------------------+-----------|
+| H1 | esp-lifecycle.web.sdp.101.com  |                218.75.141.9 | 教材选取  |
+| H2 | cdncs.101.com                  | 117.27.241.73/221.228.89.48 | 资源下载  |
+| H3 | pptmessage.101.com             |                118.191.2.45 |           |
+| H4 | ppt.101.com                    |               61.160.40.249 | 官网      |
+| H5 | p.101.com                      |               118.191.2.178 | 后台      |
+| H6 | cs.101.com                     |               221.228.89.48 | 内容服务  |
+| H7 | ppt-release.101.com            |               61.160.40.250 | netconfig |
+| H8 | pptaccount.edu.web.sdp.101.com |               61.160.40.250 |           |
