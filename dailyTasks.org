@@ -1,5 +1,28 @@
-* tasks :work:
+* tasks                                                                         :work:
 ** <2017-03-22 三>
+*** PROJECT learn php +golang+ +mysql+ +nginx+ +linux+ /javascript/
+**** DONE learn nginx
+     CLOSED: [2017-03-30 四 14:03]
+     :LOGBOOK:  
+     - State "DONE"       from ""           [2017-03-30 四 14:03]
+     - Note taken on [2017-03-29 三 15:39] \\
+       * deploy nginx on Ubuntu
+       
+       ** download:
+          sudo -s
+          nginx=stable # use nginx=development for latest development version
+          add-apt-repository ppa:nginx/$nginx
+          apt-get update
+          apt-get install nginx
+       
+       **
+     :END:      
+**** TODO a blog website
+***** TODO jianshu articles spyder
+****** TODO design database
+****** TODO get the articles by python
+***** TODO design golang server to return api
+***** TODO design php server to return web
 
 *** WAITING golang: goroutines and channels
     :LOGBOOK:  
@@ -47,8 +70,17 @@
       waiting for find the regular
     :END:
 
-*** WAITING deploy a smb server which can visited by win8
+*** DONE deploy a smb server which can visited by win8
     :LOGBOOK:  
+    - Note taken on [2017-03-30 四 15:11] \\
+      use rignt click -> share..instead
+    - State "DONE"       from "CANCELLED"  [2017-03-30 四 15:11]
+    :END:      
+*** CANCELLED deploy a smb server which can visited by win8
+    CLOSED: [2017-03-29 三 11:11]
+    :LOGBOOK:  
+    - State "CANCELLED"  from "WAITING"    [2017-03-29 三 11:11] \\
+      can be visited by win8 only once when boot
     - Note taken on [2017-03-23 四 19:11] \\
       try harder to figure out the permision problem
     - Note taken on [2017-03-22 三 20:22] \\
@@ -57,9 +89,19 @@
       waiting for download101 finish to reboot this machine
     :END:      
 
-*** TODO figure out the makefile of Android source code
+*** CANCELLED figure out the makefile of Android source code
+    CLOSED: [2017-03-30 四 14:05]
+    :LOGBOOK:  
+    - State "CANCELLED"  from "TODO"       [2017-03-30 四 14:05] \\
+      start learn server
+    :END:      
 
-*** TODO add fast charging logo to G600 lock screen
+*** CANCELLED add fast charging logo to G600 lock screen
+    CLOSED: [2017-03-30 四 14:06]
+    :LOGBOOK:  
+    - State "CANCELLED"  from "TODO"       [2017-03-30 四 14:06] \\
+      start learn server
+    :END:      
 
 
 * tips

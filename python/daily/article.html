@@ -1,0 +1,150 @@
+<div class="image-package">
+<img src="http://upload-images.jianshu.io/upload_images/1262158-f126fdfe9729726c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/1262158-f126fdfe9729726c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">BeautifulSoup</div>
+</div>
+<hr>
+<p>官方文档如下介绍：</p>
+<blockquote><p><strong>Beautiful Soup</strong> 是一个可以从 <strong>HTML</strong> 或 <strong>XML</strong> 文件中提取数据的 <strong>Python</strong> 库.它能够通过你喜欢的转换器实现惯用的文档导航,查找,修改文档的方式.<strong>Beautiful Soup</strong> 会帮你节省数小时甚至数天的工作时间.</p></blockquote>
+<hr>
+<h2>1. 安装</h2>
+<blockquote><p>以下都是在 <strong>python2.7</strong> 中进行测试的</p></blockquote>
+<p>可以直接使用 <strong>pip</strong> 安装：</p>
+<pre class="hljs cmake"><code class="cmake">$ pip <span class="hljs-keyword">install</span> beautifulsoup4</code></pre>
+<p><strong>BeautifulSoup</strong> 不仅支持 <strong>HTML</strong> 解析器,还支持一些第三方的解析器，如，<strong>lxml，XML，html5lib</strong> 但是需要安装相应的库。</p>
+<pre class="hljs cmake"><code class="cmake">$ pip <span class="hljs-keyword">install</span> lxml
+
+$ pip <span class="hljs-keyword">install</span> html5lib</code></pre>
+<hr>
+<h2>2. 开始使用</h2>
+<blockquote><p><strong>Beautiful Soup</strong> 的功能相当强大，但我们只介绍经常使用的功能。</p></blockquote>
+<h3>简单用法</h3>
+<p>将一段文档传入 <strong>BeautifulSoup</strong> 的构造方法,就能得到一个文档的对象, 可以传入一段字符串或一个文件句柄.</p>
+<pre class="hljs python"><code class="python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+
+<span class="hljs-meta">&gt;&gt;&gt; </span>soup = BeautifulSoup(<span class="hljs-string">"&lt;html&gt;&lt;body&gt;&lt;p&gt;data&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"</span>)
+
+<span class="hljs-meta">&gt;&gt;&gt; </span>soup
+&lt;html&gt;&lt;body&gt;&lt;p&gt;data&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
+
+<span class="hljs-meta">&gt;&gt;&gt; </span>soup(<span class="hljs-string">'p'</span>)
+[&lt;p&gt;data&lt;/p&gt;]</code></pre>
+<p>首先传入一个 <strong>html</strong> 文档，<code>soup</code> 是获得文档的对象。然后,文档被转换成 <strong>Unicode</strong> ,并且 <strong>HTML</strong> 的实例都被转换成 <strong>Unicode</strong> 编码。然后,<strong>Beautiful Soup</strong> 选择最合适的解析器来解析这段文档,如果手动指定解析器那么 <strong>Beautiful Soup</strong> 会选择指定的解析器来解析文档。但是一般最好手动指定解析器，并且使用 <strong>requests</strong> 与 <strong>BeautifulSoup</strong> 结合使用， <strong>requests</strong> 是用于爬取网页源码的一个库，此处不再介绍，<strong>requests</strong> 更多用法请参考 <a href="http://docs.python-requests.org/zh_CN/latest/user/quickstart.html" target="_blank"> Requests 2.10.0 文档 </a>。</p>
+<ul>
+<li>要解析的文档是什么类型: 目前支持, <strong>html, xml,</strong> 和 <strong>html5</strong>
+</li>
+<li>指定使用哪种解析器: 目前支持, <strong>lxml, html5lib,</strong> 和 <strong>html.parser</strong>
+</li>
+</ul>
+<pre class="hljs python"><code class="python"><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">import</span> requests
+
+html = requests.get(‘http://www.jianshu.com/’).content
+soup = BeautifulSoup(html, <span class="hljs-string">'html.parser'</span>, from_encoding=<span class="hljs-string">'utf-8'</span>)
+result = soup(<span class="hljs-string">'div'</span>)</code></pre>
+<h3>对象的种类</h3>
+<p><strong>Beautiful Soup</strong> 将复杂 <strong>HTML</strong> 文档转换成一个复杂的树形结构,每个节点都是 <strong>Python</strong> 对象,所有对象可以归纳为 4 种: <code>Tag , NavigableString , BeautifulSoup , Comment .</code></p>
+<ul>
+<li>
+<code>Tag</code>：通俗点讲就是 <strong>HTML</strong> 中的一个个标签，像上面的 <code>div，p</code>。每个 <code>Tag</code> 有两个重要的属性 <code>name</code> 和 <code>attrs，name</code> 指标签的名字或者 <code>tag</code> 本身的 <code>name，attrs</code> 通常指一个标签的 <code>class</code>。</li>
+<li>
+<code>NavigableString</code>：获取标签内部的文字，如，<code>soup.p.string</code>。</li>
+<li>
+<code>BeautifulSoup</code>：表示一个文档的全部内容。</li>
+<li>
+<code>Comment：Comment</code> 对象是一个特殊类型的 <code>NavigableString</code> 对象，其输出的内容不包括注释符号.</li>
+</ul>
+<h3>示例</h3>
+<p>下面是一个示例，带你了解 <strong>Beautiful Soup</strong> 的常见用法：</p>
+<pre class="hljs python"><code class="python"><span class="hljs-keyword">import</span> sys
+reload(sys)
+sys.setdefaultencoding(<span class="hljs-string">'utf-8'</span>)
+<span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">import</span> requests
+
+
+html_doc = <span class="hljs-string">"""
+&lt;head&gt;
+      &lt;meta charset="utf-8"&gt;
+      &lt;meta http-equiv="X-UA-Compatible" content="IE=Edge"&gt;
+    &lt;title&gt;首页 - 简书&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body class="output fluid zh cn win reader-day-mode reader-font2 " data-js-module="recommendation" data-locale="zh-CN"&gt;
+
+&lt;ul class="article-list thumbnails"&gt;
+
+  &lt;li class=have-img&gt;
+      &lt;a class="wrap-img" href="/p/49c4728c3ab2"&gt;&lt;img src="http://upload-images.jianshu.io/upload_images/2442470-745c6471c6f8258c.jpg?imageMogr2/auto-orient/strip%7CimageView2/1/w/300/h/300" alt="300" /&gt;&lt;/a&gt;
+    &lt;div&gt;
+      &lt;p class="list-top"&gt;
+        &lt;a class="author-name blue-link" target="_blank" href="/users/0af6b163b687"&gt;阿随向前冲&lt;/a&gt;
+        &lt;em&gt;·&lt;/em&gt;
+        &lt;span class="time" data-shared-at="2016-07-27T07:03:54+08:00"&gt;&lt;/span&gt;
+      &lt;/p&gt;
+      &lt;h4 class="title"&gt;&lt;a target="_blank" href="/p/49c4728c3ab2"&gt; 只装了这六款软件，工作就高效到有时间逛某宝刷某圈&lt;/a&gt;&lt;/h4&gt;
+      &lt;div class="list-footer"&gt;
+        &lt;a target="_blank" href="/p/49c4728c3ab2"&gt;
+          阅读 1830
+&lt;/a&gt;        &lt;a target="_blank" href="/p/49c4728c3ab2#comments"&gt;
+           · 评论 35
+&lt;/a&gt;        &lt;span&gt; · 喜欢 95&lt;/span&gt;
+          &lt;span&gt; · 打赏 1&lt;/span&gt;
+
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/body&gt;
+"""</span>
+
+soup = BeautifulSoup(html_doc, <span class="hljs-string">'html.parser'</span>, from_encoding=<span class="hljs-string">'utf-8'</span>)
+
+<span class="hljs-comment"># 查找所有有关的节点</span>
+tags = soup.find_all(<span class="hljs-string">'li'</span>, class_=<span class="hljs-string">"have-img"</span>)
+
+<span class="hljs-keyword">for</span> tag <span class="hljs-keyword">in</span> tags:
+        image = tag.img[<span class="hljs-string">'src'</span>]
+        article_user = tag.p.a.get_text()
+        article_user_url = tag.p.a[<span class="hljs-string">'href'</span>]
+        created = tag.p.span[<span class="hljs-string">'data-shared-at'</span>]
+        article_url = tag.h4.a[<span class="hljs-string">'href'</span>]
+
+        <span class="hljs-comment"># 可以在查找的 tag 下继续使用 find_all()</span>
+        tag_span = tag.div.div.find_all(<span class="hljs-string">'span'</span>)
+
+        likes = tag_span[<span class="hljs-number">0</span>].get_text(strip=<span class="hljs-keyword">True</span>)</code></pre>
+<p><strong>BeautifulSoup</strong> 主要用来遍历子节点及子节点的属性，通过点取属性的方式只能获得当前文档中的第一个 <code>tag</code>，例如，<code>soup.li</code>。如果想要得到所有的<code>&lt;li&gt;</code> 标签,或是通过名字得到比一个 <code>tag</code> 更多的内容的时候,就需要用到 <code>find_all()</code>，<code>find_all()</code> 方法搜索当前 tag 的所有 tag 子节点,并判断是否符合过滤器的条件<code>find_all()</code> 所接受的参数如下：</p>
+<pre class="hljs lisp"><code class="lisp">find_all( <span class="hljs-name">name</span> , attrs , recursive , string , **kwargs )</code></pre>
+<ol>
+<li>
+<p>按 <code>name</code> 搜素: <code>name</code> 参数可以查找所有名字为 <code>name</code> 的 <code>tag</code>,字符串对象会被自动忽略掉:</p>
+<pre class="hljs less"><code class="less"> <span class="hljs-selector-tag">soup</span><span class="hljs-selector-class">.find_all</span>(<span class="hljs-string">"li"</span>)</code></pre>
+</li>
+<li>
+<p>按 <code>id</code> 搜素: 如果包含一个名字为 <code>id</code> 的参数,搜索时会把该参数当作指定名字 <code>tag</code> 的属性来搜索:</p>
+<pre class="hljs less"><code class="less"> <span class="hljs-selector-tag">soup</span><span class="hljs-selector-class">.find_all</span>(id=<span class="hljs-string">'link2'</span>)</code></pre>
+</li>
+<li>
+<p>按 <code>attr</code> 搜索：有些 <code>tag</code> 属性在搜索不能使用,比如 <strong>HTML5</strong> 中的 <code>data-*</code> 属性，但是可以通过 <code>find_all()</code> 方法的 <code>attrs</code> 参数定义一个字典参数来搜索包含特殊属性的 <code>tag</code>:</p>
+<pre class="hljs autohotkey"><code class="autohotkey"> dat<span class="hljs-built_in">a_soup</span>.find_all(attrs={<span class="hljs-string">"data-foo"</span>: <span class="hljs-string">"value"</span>})</code></pre>
+</li>
+<li>
+<p>按 <code>CSS</code> 搜索: 按照 <code>CSS</code> 类名搜索 <code>tag</code> 的功能非常实用,但标识<code>CSS</code> 类名的关键字 <code>class</code> 在 <strong>Python</strong> 中是保留字,使用 <code>class</code> 做参数会导致语法错误.从 <strong>Beautiful Soup</strong> 的 4.1.1 版本开始,可以通过 <code>class_</code> 参数搜索有指定 <code>CSS</code> 类名的 <code>tag</code>:</p>
+<pre class="hljs ceylon"><code class="ceylon"> soup.find<span class="hljs-number">_</span>all(<span class="hljs-string">'li'</span>, <span class="hljs-keyword">class</span><span class="hljs-number">_</span>=<span class="hljs-string">"have-img"</span>)</code></pre>
+</li>
+<li>
+<p><code>string</code> 参数：通过 <code>string</code> 参数可以搜搜文档中的字符串内容.与 <code>name</code> 参数的可选值一样, <code>string</code> 参数接受 字符串 , 正则表达式 , 列表, <code>True</code> 。 看例子:</p>
+<pre class="hljs applescript"><code class="applescript"> soup.find_all(<span class="hljs-string">"a"</span>, <span class="hljs-built_in">string</span>=<span class="hljs-string">"Elsie"</span>)</code></pre>
+</li>
+<li>
+<p><code>recursive</code> 参数：调用 <code>tag</code> 的 <code>find_all()</code> 方法时,<strong>Beautiful Soup</strong> 会检索当前 <code>tag</code> 的所有子孙节点,如果只想搜索 <code>tag</code> 的直接子节点,可以使用参数 <code>recursive=False</code> .</p>
+<pre class="hljs ada"><code class="ada"> soup.find_all(<span class="hljs-string">"title"</span>, recursive=<span class="hljs-literal">False</span>)</code></pre>
+</li>
+</ol>
+<blockquote><p><strong>find_all()</strong> 几乎是 <strong>Beautiful Soup</strong>中最常用的搜索方法,也可以使用其简写方法，以下代码等价：</p></blockquote>
+<pre class="hljs less"><code class="less">    <span class="hljs-selector-tag">soup</span><span class="hljs-selector-class">.find_all</span>(<span class="hljs-string">"a"</span>)
+    <span class="hljs-selector-tag">soup</span>(<span class="hljs-string">"a"</span>)</code></pre>
+<h3>get_text()</h3>
+<p>如果只想得到 <code>tag</code> 中包含的文本内容,那么可以嗲用 <code>get_text()</code> 方法,这个方法获取到 <code>tag</code> 中包含的所有文版内容包括子孙 <code>tag</code> 中的内容,并将结果作为 <code>Unicode</code> 字符串返回:</p>
+<pre class="hljs stylus"><code class="stylus">    tag<span class="hljs-selector-class">.p</span><span class="hljs-selector-class">.a</span><span class="hljs-selector-class">.get_text</span>()</code></pre>
+<p>如果想看更多内容，请参考 <a href="http://beautifulsoup.readthedocs.io/zh_CN/latest/#id18" target="_blank"> Beautiful Soup 4.4.0 文档 </a>（中文文档）。</p>
