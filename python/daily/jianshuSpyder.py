@@ -31,7 +31,7 @@ class Article:
     '''
     this class is a bean of article of jianshu
     '''
-    db = _mysql.connect(user='tiger', passwd='123456')
+    db = _mysql.connect(user='root', passwd='152256')
     db.query('create database if not exists jianshu_blog;')
     db.query('use jianshu_blog')
     db.query('''
@@ -61,12 +61,12 @@ class Article:
             print 'get articles details error'
             return
         soup = BeautifulSoup(resp.text, "html.parser")
-        self.title = soup.find('h1', class_ = 'title').contents[0]
+        self.title = soup.find('h1', class_ = 'title').contents[0].encode('utf-8')
         author_area = soup.find('div', class_ = 'author')
-        self.author= author_area.find('span', class_ = 'name').contents[0].string
-        self.date = author_area.find('span', class_ = 'publish-time').string
+        self.author= author_area.find('span', class_ = 'name').contents[0].string.encode('utf-8').decode('utf-8')
+        self.date = author_area.find('span', class_ = 'publish-time').string.encode('utf-8').decode('utf-8')
         self.isDeleted = 0
-        self.content = soup.find('div', class_ = 'show-content').prettify()
+        self.content = soup.find('div', class_ = 'show-content').prettify().encode('utf-8').decode('utf-8')
         self.visitCount = 0
 
     def saveToSql(self):
