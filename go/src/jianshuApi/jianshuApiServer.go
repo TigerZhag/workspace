@@ -7,6 +7,7 @@ import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
 	// "encoding/json"
+	_ "unicode/utf8"
 )
 
 func main(){
@@ -16,17 +17,18 @@ func main(){
 }
 
 func handler(w http.ResponseWriter, r *http.Request){
-	db, err := sql.Open("mysql", "tiger:123456@/jianshu_blog")
+	db, err := sql.Open("mysql", "tiger:123456@/jianshu_blog?charset=utf8")
 	checkErr(err)
 
-	rows, err := db.Query("select id,title from posts")
+	rows, err := db.Query("select id,title from posts limit 1")
 	checkErr(err)
 
 	for rows.Next(){
 		var id int
 		var title string
 		rows.Scan(&id, &title)
-		fmt.Fprintf(w, "id : %d\ntitle : %d\n", id, len(title))
+		// utf8title,_ := utf8.DecodeRuneInString(title)
+		fmt.Fprintf(w, "id : %d\ntitle length: %x\n", id, title)
 	}
 }
 

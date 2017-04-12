@@ -43,7 +43,7 @@ class Article:
     isdeleted int,
     content text,
     visitcount int
-    );
+    ) CHARACTER SET = utf8mb4;
     ''')
 
     def __init__(self):

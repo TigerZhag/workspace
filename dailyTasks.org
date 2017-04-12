@@ -1,5 +1,4 @@
 * tasks                                                                         :work:
-** <2017-03-22 三>
 *** PROJECT learn php +golang+ +mysql+ +nginx+ +linux+ /javascript/
 **** DONE learn nginx
      CLOSED: [2017-03-30 四 14:03]
@@ -34,6 +33,7 @@
        - State "DONE"       from "TODO"       [2017-03-31 五 21:08]
        :END:      
 ***** TODO design golang server to return api
+****** TODO figure out encode problem
 ***** TODO design php server to return web
 
 *** WAITING golang: goroutines and channels
