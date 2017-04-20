@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
+	"strings"
 )
 
 func GetAllAirport() []string {
@@ -55,7 +56,7 @@ func GetAllAirport() []string {
 //
 func AirportsSpyder(){
 	//初始化数据库
-	db, err := sql.Open("mysql", "tiger:123456@/chunlv?charset=utf8")
+	db, err := sql.Open("mysql", "tiger:123456@localhost/chunlv?charset=utf8")
 	util.CheckErr(err)
 	defer db.Close()
 
@@ -94,9 +95,117 @@ city varchar(20)
 
 //爬取所有城市航班联通情况
 func FlightsSpyder(){
+	url := "http://flights.ctrip.com/process/schedule/"
+	// doc := GetGbkDoc(url, "gbk")
+	res ,err := http.Get(url)
+	util.CheckErr(err)
 
+	defer res.Body.Close()
+	utfBody, err := iconv.NewReader(res.Body, "gbk", "utf-8")
+	util.CheckErr(err)
+
+	doc, err := goquery.NewDocumentFromReader(utfBody)
+	util.CheckErr(err)
+
+	//初始化数据库
+	db,err := sql.Open("mysql", "tiger:123456@/chunlv?charset=utf8")
+	util.CheckErr(err)
+	defer db.Close()
+
+	//创建数据表
+	db.Exec(`
+create table if not exists flights(
+id int auto_increment primary key,
+start int,
+end int,
+foreign key(start) references airports(id) on delete cascade,
+foreign key(end) references airports(id) on delete cascade
+)engine = innodb;
+`)
+
+	doc.Find("div.mod_box div.natinal_m ul.letter_list li").Each(func(i int, s *goquery.Selection){
+		s.Find("div.m a").Each(func(i int, s *goquery.Selection){
+			fmt.Println(s.Text())
+			cUrl, _ := s.Attr("href")
+			if cUrl != "" {
+				FlightsOfCity("http://flights.ctrip.com" + cUrl, db)
+			}
+		})
+	})
+	fmt.Println("lxxx")
+}
+
+//从url中获取该城市所有航班
+func FlightsOfCity(url string, db *sql.DB){
+	fmt.Println(url)
+	// doc := GetGbkDoc(url, "gb2312")
+	res ,err := http.Get(url)
+	util.CheckErr(err)
+
+	defer res.Body.Close()
+	utfBody, err := iconv.NewReader(res.Body, "gb2312", "utf-8")
+
+	doc, err := goquery.NewDocumentFromReader(utfBody)
+	if err != nil{
+		return
+	}
+	s := doc.Find("div.city_m div.tab_m div.item_box")
+	ss := s.Find("ul.letter_list").Eq(0).Find("li")
+	ss.Each(func(i int, s *goquery.Selection){
+		s.Find("div.m a").Each(func(i int, s *goquery.Selection){
+			//通过 阿尔山-北京 找到id插入
+			flights := strings.Split(s.Text(), "-")
+			fmt.Printf("起点: %s  --  终点: %s\n", flights[0], flights[1])
+			db.Exec("insert into flights(start, end) select a.id,b.id from airports as a inner join(select id,city from airports) b on a.city = '" + flights[0] + "' and b.city = '" + flights[1] + "';")
+			// _, err := stmt.Exec(flights[0], flights[1])
+		})
+	})
+}
+
+func GetGbkDoc(url string, charset string) *goquery.Document{
+	res ,err := http.Get(url)
+	util.CheckErr(err)
+
+	fmt.Println("GetGbkDoc")
+	defer res.Body.Close()
+	utfBody, err := iconv.NewReader(res.Body, charset, "utf-8")
+	util.CheckErr(err)
+
+	doc, err := goquery.NewDocumentFromReader(utfBody)
+	util.CheckErr(err)
+
+	fmt.Println("GetGbkDoc")
+	return doc
 }
 
 func fillDBCity(){
 
+}
+
+func GetAllTransfer(start string, end string) []Strategy {
+	sqlStr := "select a.id,a.name, b.id, b.name, c.id, c.name from airports as a inner join (select id, name from airports) b inner join (select id, name from airports) c inner join (select start, end from flights where start in (select id from airports where city like '" + start + "%')) d inner join (select start, end from flights where end in (select id from airports where city like '" + end + "%')) e on a.id = d.start and b.id = d.end and c.id = e.end and d.end = e.start;"
+	// sqlStr := fmt.Sprintf(str, start, end);
+	fmt.Println(sqlStr)
+	db, err := sql.Open("mysql", "tiger:123456@/chunlv?charset=utf8")
+	rows, err := db.Query(sqlStr)
+
+	var results []Strategy
+
+	util.CheckErr(err)
+	for rows.Next(){
+		// var segments []Segment
+		var sid int
+		var mid int
+		var eid int
+		var scity string
+		var mcity string
+		var ecity string
+
+		err := rows.Scan(&sid, &scity, &mid, &mcity, &eid, &ecity)
+		util.CheckErr(err)
+
+		fmt.Printf("%s--%s--%s\n", scity, mcity, ecity)
+	}
+
+	return results
 }

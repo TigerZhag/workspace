@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <title>出行策略</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+      function validateForm()
+      {
+      var a=document.forms["Form"]["start"].value;
+      var b=document.forms["Form"]["end"].value;
+      if (a==null || a=="",b==null || b=="")
+      {
+      alert("Please Fill All Required Field");
+      return false;
+      }
+      }
+    </script>
+  </head>
+  <body>
+    <form class="form-group" onsubmit="return validateForm()">
+      <center>
+        <div class="container">
+          <input type="text" name="start" class="form-control">
+          <input type="text" name="end" class="form-control">
+        </div>
+        <input type="date" name="date"></br>
+        <button type="submit" value="提交">
+      </center>
+    </form>
+
+  </body>
+</html>

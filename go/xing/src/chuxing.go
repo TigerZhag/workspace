@@ -3,15 +3,15 @@ package main
 import (
 	"util"
 	"fmt"
-	// "log"
+	"log"
 	"net/http"
 	"html/template"
 )
 
 func main(){
-	GetAllAirport()
-	// http.HandleFunc("/", handler)
-	// log.Fatal(http.ListenAndServe("localhost:8000", nil))
+	http.HandleFunc("/", handler)
+	http.HandleFunc("/result", handleResult)
+	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
 func handler(w http.ResponseWriter, r *http.Request){
@@ -19,7 +19,7 @@ func handler(w http.ResponseWriter, r *http.Request){
 	fmt.Println(r.Method)
 	if r.Method == "GET" {
 		//return html template
-		t,err := template.ParseFiles("html/index.gtpl")
+		t,err := template.ParseFiles("html/index.html")
 		util.CheckErr(err)
 
 		t.Execute(w, nil)
@@ -32,9 +32,16 @@ func handler(w http.ResponseWriter, r *http.Request){
 		fmt.Fprintf(w, "您设定的起点: %s\n您设定的终点: %s\n", r.Form["start"], r.Form["end"])
 
 		//过滤输入
+
+		//直达方法/费用
+
 		//铁路方法&费用(高德地图)
 
-
-		//其他方式费用
+		//排序及推荐
 	}
+}
+
+func handleResult(w http.ResponseWriter, r *http.Request){
+	fmt.Println("ssssss")
+	fmt.Fprint(w, "i am from route result")
 }

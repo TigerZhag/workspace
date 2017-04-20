@@ -2,33 +2,55 @@ package main
 
 import (
 	"fmt"
-	"util"
-	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
+	"io"
+	"log"
+	"net"
+	"time"
 )
 
 func main(){
-	db, err := sql.Open("mysql", "tiger:123456@/jianshu_blog?charset=utf8")
-	util.CheckErr(err)
-	defer db.Close()
+	// go spinner(100 * time.Millisecond)
+	// const n = 45
+	// fibN := fib(n)
+	// fmt.Printf("\rFibonacci(%d) = %d\n", n, fibN)
 
-	_, err = db.Exec("create table if not exists test (id integer auto_increment primary key, title text);")
-	util.CheckErr(err)
-
-	stmt, err := db.Prepare("insert into test(title) values(?)")
-	util.CheckErr(err)
-
-	str := "父亲的往事"
-	_, err = stmt.Exec(str)
-	fmt.Printf("%d \n%x \n%s\n", len(str), str, str)
-	util.CheckErr(err)
-
-	rows, err := db.Query("select title from test;")
-	for rows.Next(){
-		var title string
-		err = rows.Scan(&title)
-		util.CheckErr(err)
-
-		fmt.Printf("%s \n", title)
+	listener, err := net.Listen("tcp", "localhost:8000")
+	if err != nil{
+		log.Fatal(err)
 	}
+
+	for {
+		conn, err := listener.Accept()
+		if err != nil {
+			log.Print(err)
+		}
+		go handleConn(conn)
+	}
+}
+
+func handleConn(c net.Conn){
+	defer c.Close()
+	for {
+		_, err := io.WriteString(c, time.Now().Format("15:04:05\n"))
+		if err != nil {
+			return
+		}
+		time.Sleep(1 * time.Second)
+	}
+}
+
+func spinner(delay time.Duration){
+	for {
+		for _, r := range `-\|/` {
+			fmt.Printf("\r%c", r)
+			time.Sleep(delay)
+		}
+	}
+}
+
+func fib(x int) int {
+	if x < 2 {
+		return x
+	}
+	return fib(x-1) + fib (x-2)
 }
