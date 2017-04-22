@@ -1,0 +1,77 @@
+/* this file is the cascading style sheets from index.html */
+
+body {
+    /* background-image: url("/public/pic/microsoft_classic.jpg"); */
+}
+
+button {
+    padding: 10px 40px;
+    width: 120px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px #aaa;
+}
+
+button span{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+button span:after{
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+button:hover {
+    background-color: #2B9E30;
+}
+
+button:hover span{
+    padding-right: 10px
+}
+
+button:hover span:after{
+    opacity: 1;
+    right:-10px;
+}
+
+button:active {
+    box-shadow: 0 2px #555;
+    transform: translateY(3px);
+}
+
+.position-input{
+    width: 200px;
+    margin: 5px;
+}
+
+.exchange-icon {
+    border-radius: 50%;
+    border: 1px;
+    padding: 5px;
+    background-color: lightblue
+}
+.exchange-icon:hover {
+    background-color: skyblue;
+}
+
+.exchange-icon:active {
+    background-color: deepskyblue;
+}
+
+#date {
+    width: 200px;
+    margin: 10px;
+}
