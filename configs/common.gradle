@@ -1,0 +1,8 @@
+    signingConfigs {
+        rbsoft {
+            storeFile file('/home/dream/.android_keys/readboy.key')
+            storePassword "soft_g@readboy.com"
+            keyAlias "rbsoft"
+            keyPassword "076023378308"
+        }
+    }

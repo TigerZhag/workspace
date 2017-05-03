@@ -1,0 +1,3 @@
+#!/bin/bash
+# this script listen Android app's error of lack access permission of some .so file due to the Android 7.0's permission configuration
+# and pull it from Android filesystem /system/lib to the source code of Apk
