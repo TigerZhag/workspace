@@ -1,26 +1,141 @@
 /* css for index.html */
+:root{
+    --menubar-color: #2C70FF;
+    --startbtn-hover: #2C20FF;
+}
+
 #root-container {
     background-image: url("/public/images/windows_classic_wallpaper.jpg");
 }
 
+#top-container {
+    position: absolute;
+    text-align: center;
+    display: inline;
+}
+
+/* desktop items */
+.desktop-item {
+    margin: 50px 0px;
+    width: 80px;
+    height: 100px;
+    position: relative;
+    left: 50px;
+}
+
+.desktop-items-icon {
+    width: 80px;
+    height: 80px;
+}
+
+.desktop-items-title {
+    text-align: center;
+    width: 100%;
+    height: 50px;
+}
+
+/* show content */
+#show {
+    width: 50%;
+    height: 90%;
+    margin: 10 auto;
+    border-radius: 5px;
+    background-color: lightgray;
+    box-shadow: 5px 5px 5px gray;
+    display: none;
+}
+
+#show #show-titlebar {
+    width: 100%;
+    height: 40px;
+    position: relative;
+    padding: 0px 0px 0px 10px;
+    border-radius: 5px 5px 0 0;
+    background-color: var(--menubar-color);
+}
+
+#show #show-title {
+    width: 200px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0px 0px 0px 10px;
+    vertical-align: middle;
+    text-align: center-verticle;
+
+}
+
+#show #show-menubar {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 150px;
+    height: 40px;
+}
+
+#show .show-menu {
+    width: 40px;
+    height: 40px;
+    background-image: url("/public/images/mini-show.jpg");
+    border: 0px;
+    padding: 0;
+    margin: 0;
+}
+
+#show #show-mini {
+    width: 40px;
+    height: 40px;
+    background-image: url("/public/images/mini-show.jpg");
+}
+
+#show #show-mini:action {
+
+}
+
+#show #show-max {
+    width: 40px;
+    height: 40px;
+    background-image: url("/public/images/mini-show.jpg");
+
+}
+
+#show #show-close {
+    width: 40px;
+    height: 40px;
+    background-image: url("/public/images/mini-show.jpg");
+
+}
 
 /* footer  */
 .footer {
-    background-color: #2C70FF;
+    background-color: var(--menubar-color);
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 50px;
-    box-shadow: 0px -5px 5px #aaa;
+    box-shadow: 0px -5px 3px #aaa;
 }
 
 #start-btn {
-    margin: 5px;
+    background-color: var(--menubar-color);
+    border: 0px;
     height: 100%;
     width: 80px;
 }
 
-#time-zone {
-    
+#start-btn:hover {
+    color: white;
+    background-color: var(--startbtn-hover);
+}
+
+#current-time {
+    position: absolute;
+    line-height: 50px;
+    vertical-align: middle;
+    right: 0;
+    top: 0;
+    width: 100px;
+    height: 50px;
+    color: black;
 }
