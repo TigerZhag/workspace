@@ -25,19 +25,30 @@ $(function(){
 // 最小化
 $(function(){
   $("#show #show-mini").click(function(){
-    $("#show").hide();
+    $("#show").animate({
+      width: '100px',
+      height: '50px',
+      position: 'absolute',
+      bottom: '0',
+      left: '50px',
+      margin: '0 auto'
+    }, 500);
   })
 });
 
 // 最大化/还原
 $(function(){
   $("#show #show-max").click(function(){
-    var show = $("#show");
-    console.log("width: " + show.width() + " height:" + show.height());
-    if(show.width() < $(window).width()){
-      show.animate({width: '100%', height: '95%', margin: '0 auto'}, 500);
+    if($("#show").width() < $(window).width()){
+      $("#show").animate({width: '100%', height: '95%', margin: '0 auto'}, 300);
     }else {
-      show.animate({width: '50%', height: '90%', margin: '10 auto'}, 500);
+      $("#show").animate({width: '50%', height: '90%', margin: '0 auto'}, 300);
     }
+  })
+});
+
+$(function(){
+  $("#show #show-close").click(function(){
+    $("#show").hide();
   })
 });
