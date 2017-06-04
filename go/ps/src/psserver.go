@@ -62,7 +62,7 @@ func getProcessHistory(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 	r.ParseForm()
 	pName := r.Form["pname"][0]
 	if pName == "" {
-		//
+		w.Write([]byte(""))
 	}
 	//获取进程启动信息
 	fmt.Print(pName)
