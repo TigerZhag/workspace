@@ -1,0 +1,17 @@
+.input-group {
+    width : 500px;
+    margin: 10px auto;
+}
+
+#result-container {
+    width: 500px;
+    margin: 0px auto;
+}
+
+.table-bordered {
+    width: 100%;
+    max-width: 100%;
+    background-color: #fff;
+    margin-bottom: 0;
+    border: 1px solid #ddd;
+}

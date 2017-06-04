@@ -1,0 +1,12 @@
+<table class="table table-bordered">
+  <tr>
+    <th>进程名称</th>
+    <th>启动时间</th>
+  </tr>
+  {{range .}}
+  <tr>
+    <td>{{.Cmd}}</td>
+    <td><pre>{{.Start}}</pre></td>
+  </tr>
+  {{end}}
+</table>

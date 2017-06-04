@@ -20,10 +20,10 @@ $(function(){
 
 // 交换出发到达城市
 $(function(){
-  $("#exchange-icon").click(function(){
-    var start = $("#start").val();
-    var end = $("#end").val();
-    $("#start").val(end);
-    $("#end").val(start);
-  })
+    $("#exchange-icon").click(function(){
+        var start = $("#start").val();
+        var end = $("#end").val();
+        $("#start").val(end);
+        $("#end").val(start);
+    });
 });

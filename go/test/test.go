@@ -8,27 +8,27 @@ import (
 	"time"
 )
 
-func main(){
+func main() {
 	// go spinner(100 * time.Millisecond)
 	// const n = 45
 	// fibN := fib(n)
 	// fmt.Printf("\rFibonacci(%d) = %d\n", n, fibN)
 
-	listener, err := net.Listen("tcp", "localhost:8000")
-	if err != nil{
-		log.Fatal(err)
-	}
+	// listener, err := net.Listen("tcp", "localhost:8000")
+	// if err != nil{
+	// 	log.Fatal(err)
+	// }
 
-	for {
-		conn, err := listener.Accept()
-		if err != nil {
-			log.Print(err)
-		}
-		go handleConn(conn)
-	}
+	// for {
+	// 	conn, err := listener.Accept()
+	// 	if err != nil {
+	// 		log.Print(err)
+	// 	}
+	// 	go handleConn(conn)
+	// }
 }
 
-func handleConn(c net.Conn){
+func handleConn(c net.Conn) {
 	defer c.Close()
 	for {
 		_, err := io.WriteString(c, time.Now().Format("15:04:05\n"))
@@ -39,7 +39,7 @@ func handleConn(c net.Conn){
 	}
 }
 
-func spinner(delay time.Duration){
+func spinner(delay time.Duration) {
 	for {
 		for _, r := range `-\|/` {
 			fmt.Printf("\r%c", r)
@@ -52,5 +52,5 @@ func fib(x int) int {
 	if x < 2 {
 		return x
 	}
-	return fib(x-1) + fib (x-2)
+	return fib(x-1) + fib(x-2)
 }
