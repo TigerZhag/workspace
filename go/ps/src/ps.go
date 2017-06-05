@@ -98,6 +98,15 @@ func QueryPsList(pname string) []ps {
 	return pss
 }
 
+func contains(s []string, e string) bool {
+	for _, a := range s {
+		if strings.EqualFold(a, e) {
+			return true
+		}
+	}
+	return false
+}
+
 func insertPsIntoDb(p *ps) {
 	// queryStr := "select id,start from history where cmd = '" + p.Cmd + "';"
 	// fmt.Println(queryStr)
@@ -115,7 +124,7 @@ func insertPsIntoDb(p *ps) {
 		starts := strings.Split(start, "//")
 		if len(starts) == 0 {
 			newVal = p.Start
-		} else if starts[len(starts)-1] != p.Start {
+		} else if !contains(starts, p.Start) {
 			starts = append(starts, p.Start)
 			if len(starts) > 10 {
 				newVal = strings.Join(starts[1:], "//")
