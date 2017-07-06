@@ -1,0 +1,21 @@
+** 登录
+*** request
+IP/port: 182.92.22.66:80
+url: 'http://www.anoah.com/ebag/index.php'
+method: POST
+cookies: 
+| name            | Value                                                                                                                                |
+|-----------------+--------------------------------------------------------------------------------------------------------------------------------------|
+| ebag_login_info | encodeURIComponent('14c4b06b824ec593' + getSK(username) + '239362517f538b295f4dcc3b5aa765d6' + getSK(password) + '1d8327deb882cf99') |
+| ebag_username   |                                                                                                                                      |
+| ebag_password   |                                                                                                                                      |
+| ebag_remember   |                                                                                                                                      |
+| ebag_proxy      |                                                                                                                                      |
+| Hm_lvt9f        |                                                                                                                                      |
+|                 |                                                                                                                                      |
+form: {'username'：'liangyaodeng', 'password':'111111', 'rememberMe':'0'}
+
+*** response
+
+** 课程列表界面
+*** 
