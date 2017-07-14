@@ -1,21 +1,40 @@
-** 登录
+#+Anoah resources spider -*- mode: org -*- 
+* prepare
+** todo list
+*** DONE get book base info and serilized
+    DEADLINE: <2017-07-07 五>
+*** DONE parse subjects and grade into items
+    - Note taken on [2017-07-07 五 11:50] \\
+      *** save items 
+      *** make directory
+    DEADLINE: <2017-07-07 五>
+*** TODO get resource list and start download
+    - Note taken on [2017-07-08 六 09:10] \\
+      - path: period-
+    DEADLINE: <2017-07-08 六>
+** login
 *** request
-IP/port: 182.92.22.66:80
-url: 'http://www.anoah.com/ebag/index.php'
-method: POST
-cookies: 
-| name            | Value                                                                                                                                |
-|-----------------+--------------------------------------------------------------------------------------------------------------------------------------|
-| ebag_login_info | encodeURIComponent('14c4b06b824ec593' + getSK(username) + '239362517f538b295f4dcc3b5aa765d6' + getSK(password) + '1d8327deb882cf99') |
-| ebag_username   |                                                                                                                                      |
-| ebag_password   |                                                                                                                                      |
-| ebag_remember   |                                                                                                                                      |
-| ebag_proxy      |                                                                                                                                      |
-| Hm_lvt9f        |                                                                                                                                      |
-|                 |                                                                                                                                      |
-form: {'username'：'liangyaodeng', 'password':'111111', 'rememberMe':'0'}
+    IP/port: 182.92.22.66:80
+    url: 'http://www.anoah.com/ebag/index.php'
+    method: POST
+    cookies: 
+      | name            | Value                                                                                                                                |
+      |-----------------+--------------------------------------------------------------------------------------------------------------------------------------|
+      | ebag_login_info | encodeURIComponent('14c4b06b824ec593' + getSK(username) + '239362517f538b295f4dcc3b5aa765d6' + getSK(password) + '1d8327deb882cf99') |
+      | ebag_username   |                                                                                                                                      |
+      | ebag_password   |                                                                                                                                      |
+      | ebag_remember   |                                                                                                                                      |
+      | ebag_proxy      |                                                                                                                                      |
+      | Hm_lvt9f        |                                                                                                                                      |
+      |                 |                                                                                                                                      |
+    form: {'username'：'liangyaodeng', 'password':'111111', 'rememberMe':'0'}
 
 *** response
-
-** 课程列表界面
-*** 
+   
+* get book list
+** get school sections and grades
+*** header
+*** cookies
+** get courses
+** get Press
+** get resources 
