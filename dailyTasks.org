@@ -1,4 +1,64 @@
-* tasks                                                                         :work:
+* weibai-Tasks
+** Android App
+*** bug fixes
+**** DONE +加载界面只显示一项+
+**** DONE +上传图片线程问题+
+**** DONE +修复一些小bug+
+**** TODO 启动拍摄系统弹窗
+**** DONE +跳转至主页+
+**** TODO token已失效
+*** feature
+**** DONE +识别二维码并解析字符串+
+**** DONE +识别小程序码或解析微信二维码生成规则+
+**** DONE 完善界面
+     - Note taken on [2017-08-18 五 18:49] \\
+       * 问题
+       ** 昵称长度
+       ** 密码长度
+     - Note taken on [2017-08-18 Fri 10:19] \\
+       1. +关于我们+
+       2. +意见反馈+
+       3. +修改密码+, +修改昵称+, +修改手机号+
+       4. +个人信息+
+       5. +拍摄风格+
+       6. +我的+
+       7. +新任务列表+
+       8. +我的任务列表+
+**** TODO 细节问题
+     - Note taken on [2017-08-21 一 14:07] \\
+       * +继续拍摄-结束拍摄+
+       * 工作区域多选
+**** TODO 完善接口
+     - Note taken on [2017-08-21 Mon 18:17] \\
+       * 接口问题
+       ** 修改头像==》 token失效
+       ** 修改密码==》 摄影师不存在
+     - Note takeon on [2017-08-18 五 15:47] \\
+       * 修改用户资料
+       ** 基本资料
+       *** +头像+
+       *** +昵称+
+       *** +电话+
+       *** +密码+
+       *** +姓名+
+       *** 身份证？
+       ** 工作资料
+       *** 工作区域
+       *** 拍摄风格
+       * 检查更新
+       * 意见反馈
+       ** 提交
+       ** 查询历史意见
+       * 乐拍通卡
+       ** 提交发放登记
+       ** 获取发放记录
+*** optimize
+**** TODO 图片压缩算法
+**** TODO ptp相关代码迁移
+** 智能修图
+*** learning
+**** TODO hdrnet.pdf
+* tasks
 *** PROJECT learn php +golang+ +mysql+ +nginx+ +linux+ /javascript/
 **** DONE learn nginx
      CLOSED: [2017-03-30 四 14:03]
@@ -107,7 +167,7 @@
     - State "CANCELLED"  from "TODO"       [2017-03-30 四 14:05] \\
       start learn server
     :END:      
-
+    
 *** CANCELLED add fast charging logo to G600 lock screen
     CLOSED: [2017-03-30 四 14:06]
     :LOGBOOK:  
